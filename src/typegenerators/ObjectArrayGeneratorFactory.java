@@ -26,7 +26,7 @@ public class ObjectArrayGeneratorFactory implements TypeGeneratorFactory {
     private final HashMap<String, TypeGenerator> handledTypes;
 
     public ObjectArrayGeneratorFactory() {
-        handledTypes = new HashMap<>();
+        handledTypes = new HashMap<String, TypeGenerator>();
         handledTypes.put("java.lang.CharSequence[]", new PrimitiveArrayGenerator("CharSequence"));
         handledTypes.put("java.lang.String[]", new PrimitiveArrayGenerator("String"));
     }

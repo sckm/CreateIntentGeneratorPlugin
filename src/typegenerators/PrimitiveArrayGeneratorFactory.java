@@ -26,7 +26,7 @@ public class PrimitiveArrayGeneratorFactory implements TypeGeneratorFactory {
     private final HashMap<String, TypeGenerator> handledTypes;
 
     public PrimitiveArrayGeneratorFactory() {
-        handledTypes = new HashMap<>();
+        handledTypes = new HashMap<String, TypeGenerator>();
         handledTypes.put("boolean[]", new PrimitiveArrayGenerator("Boolean"));
         handledTypes.put("byte[]", new PrimitiveArrayGenerator("Byte"));
         handledTypes.put("char[]", new PrimitiveArrayGenerator("Char"));

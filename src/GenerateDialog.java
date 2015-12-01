@@ -81,7 +81,7 @@ public class GenerateDialog extends DialogWrapper {
     }
 
     public List<PsiField> getSelectedFields() {
-        List<PsiField> selectedFields = new ArrayList<>();
+        List<PsiField> selectedFields = new ArrayList<PsiField>();
         for(int index : fieldList.getSelectedIndices()){
             selectedFields.add(myFields.getElementAt(index));
         }
