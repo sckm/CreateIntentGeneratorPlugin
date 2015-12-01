@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.scache.createintentmethodgenerator</id>
     <name>CreateIntent method generator</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <vendor email="scal.che@gmail.com" url="https://github.com/sckm">scache</vendor>
 
     <description><![CDATA[
@@ -9,11 +9,15 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <p>1.0.1</p>
+        <ul>
+            <li>automatically import Intent and Context</li>
+        </ul>
 
-      <p>1.0</p>
-      <ul>
-        <li>Initial release</li>
-      </ul>
+        <p>1.0</p>
+        <ul>
+            <li>Initial release</li>
+        </ul>
 
     ]]>
     </change-notes>
