@@ -1,37 +1,40 @@
 <idea-plugin version="2">
-  <id>com.scache.createintentmethodgenerator</id>
-  <name>CreateIntent method generator</name>
-  <version>1.0</version>
-  <vendor email="scal.che@gmail.com" url="">scache</vendor>
+    <id>com.scache.createintentmethodgenerator</id>
+    <name>CreateIntent method generator</name>
+    <version>1.0</version>
+    <vendor email="scal.che@gmail.com" url="https://github.com/sckm">scache</vendor>
 
-  <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+    <description><![CDATA[
+      Plugin for generates createIntent method for Android Activity
     ]]></description>
 
-  <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+    <change-notes><![CDATA[
+
+      <p>1.0</p>
+      <ul>
+        <li>Initial release</li>
+      </ul>
+
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="141.0"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="141.0"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
 
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
 
-  <actions>
-    <action id="MethodGenerator" class="CreateIntentMethodGenerator" text="createIntent"
-            description="generate createIntent() in activity of android">
-      <add-to-group group-id="JavaGenerateGroup1" anchor="last"/>
-    </action>
-  </actions>
+    <actions>
+        <action id="MethodGenerator" class="CreateIntentMethodGenerator" text="createIntent"
+                description="generate createIntent() in activity of android">
+            <add-to-group group-id="JavaGenerateGroup1" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
