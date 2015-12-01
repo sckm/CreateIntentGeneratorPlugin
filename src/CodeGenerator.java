@@ -41,6 +41,9 @@ import typegenerators.TypeGeneratorFactory;
 import util.VariableNameUtils;
 
 public class CodeGenerator {
+    private static final String INTENT_QUALIFIED_NAME = "android.content.Intent";
+    private static final String CONTEXT_QUALIFIED_NAME = "android.content.Context";
+
     private final PsiClass mClass;
     private final List<PsiField> mFields;
     private final TypeGeneratorFactory mTypeGeneratorFactory;
@@ -78,7 +81,8 @@ public class CodeGenerator {
         PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(mClass.getProject());
 
         // method signature
-        StringBuilder sb = new StringBuilder("public static Intent createIntent(Context context");
+        StringBuilder sb = new StringBuilder(
+                String.format("public static %s createIntent(%s context", INTENT_QUALIFIED_NAME, CONTEXT_QUALIFIED_NAME));
         for (PsiField field : fields) {
             sb.append(", ").append(getSerializerForType(field).declareValue(field, fieldToLocalVariableName(field)));
         }
@@ -87,7 +91,8 @@ public class CodeGenerator {
 
         // method body
         String intentName = "intent";
-        sb.append("Intent ")
+        sb.append(INTENT_QUALIFIED_NAME)
+                .append(" ")
                 .append(intentName)
                 .append(" = new Intent(context, ")
                 .append(psiClass.getName())
