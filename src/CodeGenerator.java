@@ -46,11 +46,13 @@ public class CodeGenerator {
 
     private final PsiClass mClass;
     private final List<PsiField> mFields;
+    private final boolean mIsUseVariableName;
     private final TypeGeneratorFactory mTypeGeneratorFactory;
 
-    public CodeGenerator(PsiClass aClass, List<PsiField> fields) {
+    public CodeGenerator(PsiClass aClass, List<PsiField> fields, boolean isUseVariableName) {
         mClass = aClass;
         mFields = fields;
+        mIsUseVariableName = isUseVariableName;
 
         this.mTypeGeneratorFactory = new ChainGeneratorFactory(
                 new PrimitiveTypeGeneratorFactory(),
@@ -107,7 +109,7 @@ public class CodeGenerator {
             sb.append(gene.putValue(field, intentName, dataConstName, fieldToLocalVariableName(field)))
                     .append('\n');
 
-            PsiField creatorField = elementFactory.createFieldFromText(generateArgConst(mClass, dataConstName), mClass);
+            PsiField creatorField = elementFactory.createFieldFromText(generateArgConst(mClass, field, dataConstName), mClass);
             lastPsiElement = JavaCodeStyleManager.getInstance(mClass.getProject()).shortenClassReferences(mClass.addBefore(creatorField, lastPsiElement));
         }
 
@@ -134,8 +136,11 @@ public class CodeGenerator {
         return sb.toString();
     }
 
-    private String generateArgConst(PsiClass psiClass, String dataConstName) {
-        return "private static final String " + dataConstName + " = \"" + getPackageName(psiClass) + "." + dataConstName.toLowerCase() + "\";";
+    private String generateArgConst(PsiClass psiClass, PsiField psiField, String dataConstName) {
+        String argConstValue = mIsUseVariableName
+                ? psiField.getName()
+                : dataConstName.toLowerCase();
+        return String.format("private static final String %s = \"%s\";", dataConstName, argConstValue);
     }
 
     private String getPackageName(@NotNull PsiClass psiClass) {

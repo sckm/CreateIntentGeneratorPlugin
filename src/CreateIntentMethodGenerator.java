@@ -29,7 +29,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import java.util.List;
 
-public class CreateIntentMethodGenerator extends BaseGenerateAction {
+public class CreateIntentMethodGenerator extends BaseGenerateAction{
     private static final String ANDROID_ACTIIVITY_QUALIFIED_NAME = "android.app.Activity";
     public CreateIntentMethodGenerator() {
         super(null);
@@ -47,7 +47,7 @@ public class CreateIntentMethodGenerator extends BaseGenerateAction {
         dialog.show();
 
         if (dialog.isOK()) {
-            generateCreateIntentMethod(psi, dialog.getSelectedFields());
+            generateCreateIntentMethod(psi, dialog.getSelectedFields(), dialog.isUseVariableName());
         }
     }
 
@@ -64,11 +64,11 @@ public class CreateIntentMethodGenerator extends BaseGenerateAction {
         return false;
     }
 
-    private void generateCreateIntentMethod(final PsiClass psiClass, final List<PsiField> fields) {
+    private void generateCreateIntentMethod(final PsiClass psiClass, final List<PsiField> fields, final boolean isAddClassNameToConstName) {
         new WriteCommandAction.Simple(psiClass.getProject(), psiClass.getContainingFile()) {
             @Override
             protected void run() throws Throwable {
-                new CodeGenerator(psiClass, fields).generate();
+                new CodeGenerator(psiClass, fields, isAddClassNameToConstName).generate();
             }
         }.execute();
     }

@@ -25,27 +25,51 @@ import com.intellij.psi.PsiModifier;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.panels.VerticalLayout;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class GenerateDialog extends DialogWrapper {
+public class GenerateDialog extends DialogWrapper implements OptionStateGetter{
 
     private final LabeledComponent<JPanel> myComponent;
     private CollectionListModel<PsiField> myFields;
 
     private JBList fieldList;
+    private JCheckBox useVariableNameCheckBox;
 
     protected GenerateDialog(PsiClass psiClass) {
         super(psiClass.getProject());
         setTitle("Select Fields for createIntent Method Generation");
 
+        JPanel panel = createFiledListPanel(psiClass);
+        JPanel optionPanel = createOptionPanel();
+
+        JPanel root = new JPanel();
+        root.setLayout(new BorderLayout());
+        root.add(panel, BorderLayout.CENTER);
+        root.add(optionPanel, BorderLayout.PAGE_END);
+        myComponent = LabeledComponent.create(root, "Fields to include in Intent");
+
+        init();
+    }
+
+    @Nullable
+    @Override
+    protected JComponent createCenterPanel() {
+        return myComponent;
+    }
+
+    private JPanel createFiledListPanel(PsiClass psiClass){
         PsiField[] allFields = psiClass.getFields();
         PsiField[] fields = new PsiField[allFields.length];
 
@@ -67,17 +91,17 @@ public class GenerateDialog extends DialogWrapper {
         fieldList.setCellRenderer(new DefaultPsiElementCellRenderer());
         ToolbarDecorator decorator = ToolbarDecorator.createDecorator(fieldList);
         decorator.disableAddAction();
-        JPanel panel = decorator.createPanel();
-
-        myComponent = LabeledComponent.create(panel, "Fields to include in Intent");
-
-        init();
+        return decorator.createPanel();
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return myComponent;
+    private JPanel createOptionPanel(){
+        JPanel optionPanel = new JPanel();
+        optionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        useVariableNameCheckBox = new JCheckBox();
+        useVariableNameCheckBox.setText("use variable name for constant value");
+        optionPanel.add(useVariableNameCheckBox);
+
+        return optionPanel;
     }
 
     public List<PsiField> getSelectedFields() {
@@ -87,5 +111,10 @@ public class GenerateDialog extends DialogWrapper {
         }
 
         return selectedFields;
+    }
+
+    @Override
+    public boolean isUseVariableName() {
+        return useVariableNameCheckBox.isSelected();
     }
 }
