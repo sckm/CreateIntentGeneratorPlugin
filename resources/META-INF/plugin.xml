@@ -35,6 +35,10 @@
         <!-- Add your extensions here -->
     </extensions>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceInterface="config.PersistentConfig" serviceImplementation="config.PersistentConfig"/>
+    </extensions>
+
     <actions>
         <action id="MethodGenerator" class="CreateIntentMethodGenerator" text="createIntent"
                 description="generate createIntent() in activity of android">
