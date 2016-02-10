@@ -29,6 +29,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import java.util.List;
 
+import config.PersistentConfig;
+
 public class CreateIntentMethodGenerator extends BaseGenerateAction{
     private static final String ANDROID_ACTIIVITY_QUALIFIED_NAME = "android.app.Activity";
     public CreateIntentMethodGenerator() {
@@ -42,13 +44,18 @@ public class CreateIntentMethodGenerator extends BaseGenerateAction{
     @Override
     public void actionPerformed(AnActionEvent e) {
         PsiClass psi = getPsiClassFromContext(e);
+        PersistentConfig config = PersistentConfig.getInstance(e.getProject());
 
-        GenerateDialog dialog = new GenerateDialog(psi);
+        GenerateDialog dialog = new GenerateDialog(config, psi);
         dialog.show();
 
+        config.setUseVariableName(dialog.isUseVariableName());
+
         if (dialog.isOK()) {
-            generateCreateIntentMethod(psi, dialog.getSelectedFields(), dialog.isUseVariableName());
+            generateCreateIntentMethod(psi, dialog.getSelectedFields(), config.isUseVariableName());
         }
+
+
     }
 
     @Override

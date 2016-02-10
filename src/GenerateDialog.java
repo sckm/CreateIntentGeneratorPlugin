@@ -39,6 +39,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import config.PersistentConfig;
+
 public class GenerateDialog extends DialogWrapper implements OptionStateGetter{
 
     private final LabeledComponent<JPanel> myComponent;
@@ -47,12 +49,12 @@ public class GenerateDialog extends DialogWrapper implements OptionStateGetter{
     private JBList fieldList;
     private JCheckBox useVariableNameCheckBox;
 
-    protected GenerateDialog(PsiClass psiClass) {
+    protected GenerateDialog(PersistentConfig config, PsiClass psiClass) {
         super(psiClass.getProject());
         setTitle("Select Fields for createIntent Method Generation");
 
         JPanel panel = createFiledListPanel(psiClass);
-        JPanel optionPanel = createOptionPanel();
+        JPanel optionPanel = createOptionPanel(config);
 
         JPanel root = new JPanel();
         root.setLayout(new BorderLayout());
@@ -94,11 +96,12 @@ public class GenerateDialog extends DialogWrapper implements OptionStateGetter{
         return decorator.createPanel();
     }
 
-    private JPanel createOptionPanel(){
+    private JPanel createOptionPanel(PersistentConfig config){
         JPanel optionPanel = new JPanel();
         optionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         useVariableNameCheckBox = new JCheckBox();
         useVariableNameCheckBox.setText("use variable name for constant value");
+        useVariableNameCheckBox.setSelected(config.isUseVariableName());
         optionPanel.add(useVariableNameCheckBox);
 
         return optionPanel;
